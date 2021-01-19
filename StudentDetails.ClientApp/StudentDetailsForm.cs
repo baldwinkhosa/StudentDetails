@@ -1,17 +1,11 @@
 ﻿using AutoMapper;
 using StudentDetails.ClientApp.Entities;
-using StudentDetails.Data.Infrastructure;
 using StudentDetails.Domain.Model;
 using StudentDetails.ServicePlatform.ExternalContracts;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace StudentDetails.ClientApp
@@ -24,8 +18,7 @@ namespace StudentDetails.ClientApp
         {
             _StudentService = StudentService;
             InitializeComponent();
-            Mapper.CreateMap<StudentModel, Student>();
-
+            
             dtpDOB.Format = DateTimePickerFormat.Custom;
             dtpDOB.CustomFormat = "dd/MM/yyyy";
 
@@ -89,6 +82,7 @@ namespace StudentDetails.ClientApp
 
                 if(isvalid)
                 {
+                    Mapper.CreateMap<StudentModel, Student>();
                     var model = Mapper.Map<Student>(stud);
 
                     var result = _StudentService.CreateStudent(model);
@@ -160,34 +154,31 @@ namespace StudentDetails.ClientApp
             try
             {
                 bool isvalid = true;
+                int Id = Int32.Parse(lblId.Text);
+                var student = _StudentService.SelectStudentById(Id);
 
-                var stud = new StudentModel()
+                if (!IsValidEmail(student.EmailAddress))
                 {
-                    Name = txtName.Text,
-                    LastName = txtLastName.Text,
-                    CellNumber = txtCellNumber.Text,
-                    EmailAddress = txtEmailAddress.Text,
-                    DOB = dtpDOB.Value,
-                    Gender = cmbGender.Text
-                };
-
-                if (!IsValidEmail(stud.EmailAddress))
-                {
-                    MessageBox.Show($"Invalid Email address {stud.EmailAddress}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Invalid Email address {student.EmailAddress}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     isvalid = false;
                 }
 
-                if (!IsPhoneNumber(stud.CellNumber))
+                if (!IsPhoneNumber(student.CellNumber))
                 {
-                    MessageBox.Show($"Invalid cellphone number {stud.CellNumber}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Invalid cellphone number {student.CellNumber}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     isvalid = false;
                 }
 
                 if(isvalid)
                 {
-                    var model = Mapper.Map<Student>(stud);
+                    student.Name = txtName.Text;
+                    student.LastName = txtLastName.Text;
+                    student.CellNumber = txtCellNumber.Text;
+                    student.EmailAddress = txtEmailAddress.Text;
+                    student.DOB = dtpDOB.Value;
+                    student.Gender = cmbGender.Text;
 
-                    _StudentService.UpdateStudent(model);
+                    _StudentService.UpdateStudent(student);
 
                     MessageBox.Show("Updated Successfully!..", "Update", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -223,31 +214,42 @@ namespace StudentDetails.ClientApp
         {
             try
             {
-                string fileName = $"{txtPath.Text}\\Student.XML";
-                DataTable dt = new DataTable("Student");
-                DataSet dS = new DataSet("Students");
+                string fileName = $"{txtPath.Text}\\student.xml";
+                DataTable dt = new DataTable("student");
+                DataSet dS = new DataSet("students");
 
                 dgStudDetails.DataSource = _StudentService.SelectAllStudents().Where(x => x.Exported == false).ToList();
 
-                object[] cellValues = new object[dgStudDetails.Columns.Count];
-
-                foreach (DataGridViewColumn column in dgStudDetails.Columns)
+                if(dgStudDetails.RowCount > 0)
                 {
-                    dt.Columns.Add(column.HeaderText);
-                }
+                    object[] cellValues = new object[dgStudDetails.Columns.Count];
 
-                foreach (DataGridViewRow row in dgStudDetails.Rows)
-                {
-                    for (int i = 0; i < row.Cells.Count; i++)
+                    foreach (DataGridViewColumn column in dgStudDetails.Columns)
                     {
-                        cellValues[i] = row.Cells[i].Value;
+                        dt.Columns.Add(column.HeaderText);
                     }
-                    dt.Rows.Add(cellValues);
-                }
-                dS.Tables.Add(dt);
-                dS.WriteXml($"{fileName}");
 
-                UpdateExportedStudents();
+                    foreach (DataGridViewRow row in dgStudDetails.Rows)
+                    {
+                        for (int i = 0; i < row.Cells.Count; i++)
+                        {
+                            cellValues[i] = row.Cells[i].Value;
+                        }
+                        dt.Rows.Add(cellValues);
+                    }
+                    dS.Tables.Add(dt);
+                    dS.WriteXml($"{fileName}");
+
+                    MessageBox.Show("XML Exported Successfully!..", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    UpdateExportedStudents();
+                }
+                else
+                {
+                    MessageBox.Show("XML Records already Exported!..", "Export", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    refreshdata();
+                    ClearFields();
+                }
             }
             catch (Exception ex)
             {

@@ -185,7 +185,7 @@ namespace StudentDetails.ClientApp
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(-7, -2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1297, 72);
+            this.panel1.Size = new System.Drawing.Size(1320, 72);
             this.panel1.TabIndex = 16;
             // 
             // lblId
@@ -293,7 +293,7 @@ namespace StudentDetails.ClientApp
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1041, 450);
+            this.ClientSize = new System.Drawing.Size(1313, 577);
             this.Controls.Add(this.btnBrowser);
             this.Controls.Add(this.txtPath);
             this.Controls.Add(this.label8);
