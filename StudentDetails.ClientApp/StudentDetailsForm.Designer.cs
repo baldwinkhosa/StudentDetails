@@ -43,6 +43,7 @@ namespace StudentDetails.ClientApp
             this.txtName = new System.Windows.Forms.TextBox();
             this.dgStudDetails = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lblId = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.dtpDOB = new System.Windows.Forms.DateTimePicker();
             this.label7 = new System.Windows.Forms.Label();
@@ -50,6 +51,10 @@ namespace StudentDetails.ClientApp
             this.btnExport = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.cmbGender = new System.Windows.Forms.ComboBox();
+            this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtPath = new System.Windows.Forms.TextBox();
+            this.btnBrowser = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgStudDetails)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -82,13 +87,14 @@ namespace StudentDetails.ClientApp
             this.btnUpdate.TabIndex = 2;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.Window;
-            this.label1.Location = new System.Drawing.Point(252, 11);
+            this.label1.Location = new System.Drawing.Point(510, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(248, 39);
             this.label1.TabIndex = 3;
@@ -163,22 +169,32 @@ namespace StudentDetails.ClientApp
             // dgStudDetails
             // 
             this.dgStudDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgStudDetails.Location = new System.Drawing.Point(38, 273);
+            this.dgStudDetails.Location = new System.Drawing.Point(12, 328);
             this.dgStudDetails.Name = "dgStudDetails";
             this.dgStudDetails.RowHeadersWidth = 51;
             this.dgStudDetails.RowTemplate.Height = 24;
-            this.dgStudDetails.Size = new System.Drawing.Size(687, 165);
+            this.dgStudDetails.Size = new System.Drawing.Size(1278, 232);
             this.dgStudDetails.TabIndex = 15;
+            this.dgStudDetails.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgStudDetails_CellClick);
             this.dgStudDetails.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgStudDetails_CellContentClick);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Highlight;
+            this.panel1.Controls.Add(this.lblId);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(-7, -2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1050, 72);
+            this.panel1.Size = new System.Drawing.Size(1297, 72);
             this.panel1.TabIndex = 16;
+            // 
+            // lblId
+            // 
+            this.lblId.AutoSize = true;
+            this.lblId.Location = new System.Drawing.Point(1082, 29);
+            this.lblId.Name = "lblId";
+            this.lblId.Size = new System.Drawing.Size(0, 17);
+            this.lblId.TabIndex = 4;
             // 
             // label6
             // 
@@ -213,19 +229,21 @@ namespace StudentDetails.ClientApp
             this.btnDelete.TabIndex = 20;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnExport
             // 
-            this.btnExport.Location = new System.Drawing.Point(469, 200);
+            this.btnExport.Location = new System.Drawing.Point(151, 288);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(256, 23);
+            this.btnExport.Size = new System.Drawing.Size(579, 25);
             this.btnExport.TabIndex = 21;
             this.btnExport.Text = "Export To XML";
             this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(469, 226);
+            this.btnExit.Location = new System.Drawing.Point(469, 200);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(256, 23);
             this.btnExit.TabIndex = 22;
@@ -236,17 +254,49 @@ namespace StudentDetails.ClientApp
             // cmbGender
             // 
             this.cmbGender.FormattingEnabled = true;
+            this.cmbGender.Items.AddRange(new object[] {
+            "Male",
+            "Female"});
             this.cmbGender.Location = new System.Drawing.Point(151, 230);
             this.cmbGender.Name = "cmbGender";
             this.cmbGender.Size = new System.Drawing.Size(312, 24);
             this.cmbGender.TabIndex = 23;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(35, 259);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(88, 17);
+            this.label8.TabIndex = 24;
+            this.label8.Text = "File Location";
+            // 
+            // txtPath
+            // 
+            this.txtPath.Location = new System.Drawing.Point(151, 260);
+            this.txtPath.Name = "txtPath";
+            this.txtPath.Size = new System.Drawing.Size(312, 22);
+            this.txtPath.TabIndex = 25;
+            // 
+            // btnBrowser
+            // 
+            this.btnBrowser.Location = new System.Drawing.Point(469, 259);
+            this.btnBrowser.Name = "btnBrowser";
+            this.btnBrowser.Size = new System.Drawing.Size(256, 23);
+            this.btnBrowser.TabIndex = 26;
+            this.btnBrowser.Text = "Browse";
+            this.btnBrowser.UseVisualStyleBackColor = true;
+            this.btnBrowser.Click += new System.EventHandler(this.btnBrowser_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(747, 450);
+            this.ClientSize = new System.Drawing.Size(1041, 450);
+            this.Controls.Add(this.btnBrowser);
+            this.Controls.Add(this.txtPath);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.cmbGender);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnExport);
@@ -300,6 +350,11 @@ namespace StudentDetails.ClientApp
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.ComboBox cmbGender;
+        private System.Windows.Forms.Label lblId;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtPath;
+        private System.Windows.Forms.Button btnBrowser;
     }
 }
 

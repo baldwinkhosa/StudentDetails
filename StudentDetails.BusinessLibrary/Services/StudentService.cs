@@ -48,6 +48,7 @@ namespace StudentDetails.BusinessLibrary.Services
                 if (stud != null)
                 {
                     _unitOfWork.StudentRepository.Delete(stud);
+                    _unitOfWork.Commit();
                 }
             }
             catch (Exception)
@@ -61,7 +62,7 @@ namespace StudentDetails.BusinessLibrary.Services
             try
             {
                 bool validUser = _unitOfWork.StudentRepository.Exists(u => u.Name == student.Name && u.LastName == student.LastName && u.DOB == student.DOB);
-                return validUser ? _unitOfWork.StudentRepository.GetUserFromUserName(u => u.Name == student.Name && u.LastName == student.LastName && u.DOB == student.DOB) : null;
+                return validUser ? _unitOfWork.StudentRepository.GetStudentFromUserName(u => u.Name == student.Name && u.LastName == student.LastName && u.DOB == student.DOB) : null;
             }
             catch (Exception)
             {

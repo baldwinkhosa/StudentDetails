@@ -1,11 +1,12 @@
 ﻿using StudentDetails.Domain.Model;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace StudentDetails.Data.Infrastructure
 {
     public interface IStudentRepository : IRepository<Student>
     {
-        Student GetUserFromUserName(Expression<Func<Student, bool>> where);
+        Student GetStudentFromUserName(Expression<Func<Student, bool>> where);
     }
 }

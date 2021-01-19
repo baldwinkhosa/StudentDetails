@@ -10,6 +10,7 @@ namespace StudentDetails.Domain.Model
         public Student()
         {
             CreatedDate = DateTime.Now;
+            Exported = false;
         }
         [Key]
         public int Id { get; set; }
@@ -19,6 +20,7 @@ namespace StudentDetails.Domain.Model
         public string EmailAddress { get; set; }
         public DateTime DOB { get; set; }
         public string Gender { get; set; }
+        public bool Exported { get; set; }
         public DateTime CreatedDate { get; private set; }
     }
 }
