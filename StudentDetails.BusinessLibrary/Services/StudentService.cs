@@ -9,6 +9,11 @@ namespace StudentDetails.BusinessLibrary.Services
     public class StudentService : IStudentService
     {
         private readonly IUnitOfWork _unitOfWork;
+
+        public StudentService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
         public int CreateStudent(Student student)
         {
             try

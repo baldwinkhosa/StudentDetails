@@ -1,4 +1,9 @@
-﻿using System;
+﻿using AutoMapper;
+using StudentDetails.ClientApp.Entities;
+using StudentDetails.Data.Infrastructure;
+using StudentDetails.Domain.Model;
+using StudentDetails.ServicePlatform.ExternalContracts;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,8 +17,13 @@ namespace StudentDetails.ClientApp
 {
     public partial class Form1: Form
     {
-        public Form1()
+        private readonly IStudentService _StudentService;
+        //private readonly IUnitOfWork _unitOfWork;
+
+        public Form1(IStudentService StudentService /*, IUnitOfWork unitOfWork*/)
         {
+            _StudentService = StudentService;
+           // _unitOfWork = unitOfWork;
             InitializeComponent();
         }
 
@@ -50,6 +60,38 @@ namespace StudentDetails.ClientApp
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            Mapper.CreateMap<StudentModel, Student>();
+
+            try
+            {
+                var stud = new StudentModel()
+                {
+                    Name = txtName.Text,
+                    LastName = txtLastName.Text,
+                    CellNumber = txtCellNumber.Text,
+                    EmailAddress = txtEmailAddress.Text,
+                    DOB = dtpDOB.Value,
+                    Gender = cmbGender.Text
+                };
+
+                var model = Mapper.Map<Student>(stud);
+
+               var result =  _StudentService.CreateStudent(model);
+
+                if(result > 0)
+                {
+                    MessageBox.Show("Saved Successfully!..", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong!. Please try again!..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            } 
 
         }
     }

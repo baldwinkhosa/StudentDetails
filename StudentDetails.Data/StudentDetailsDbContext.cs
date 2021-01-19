@@ -6,7 +6,7 @@ namespace StudentDetails.Data
 {
     public class StudentDetailsDbContext :  DbContext
     {
-        public StudentDetailsDbContext() : base("StudentDB")
+        public StudentDetailsDbContext() : base("RidgewaySchool")
         {
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<StudentDetailsDbContext>());
         }
