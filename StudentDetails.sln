@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentDetails.BusinessLibr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentDetails.ServicePlatform", "StudentDetails.ServicePlatform\StudentDetails.ServicePlatform.csproj", "{6045D758-774D-44F0-B495-793E718E819A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentDetails.WebApp", "StudentDetails.WebApp\StudentDetails.WebApp.csproj", "{81121258-66B4-4CFD-A300-E692791C717F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{6045D758-774D-44F0-B495-793E718E819A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6045D758-774D-44F0-B495-793E718E819A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6045D758-774D-44F0-B495-793E718E819A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81121258-66B4-4CFD-A300-E692791C717F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81121258-66B4-4CFD-A300-E692791C717F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81121258-66B4-4CFD-A300-E692791C717F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81121258-66B4-4CFD-A300-E692791C717F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
